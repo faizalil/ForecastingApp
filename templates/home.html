@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Prediksi Harga Komoditas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="container animate-fade-in">
+        <h1><i class="fas fa-chart-line"></i> Prediksi Harga Komoditas</h1>
+        <p class="subtitle">Menggunakan data dari Yahoo Finance dengan model LSTM & GRU</p>
+
+        <form method="POST" class="form">
+            <div class="form-group">
+                <label for="ticker"><i class="fas fa-search-dollar"></i> Ticker yFinance</label>
+                <input type="text" id="ticker" name="ticker" placeholder="Misal: CL=F" required>
+            </div>
+
+            <div class="form-group">
+                <label for="model"><i class="fas fa-brain"></i> Pilih Model</label>
+                <select id="model" name="model" required>
+                    <option value="LSTM">LSTM</option>
+                    <option value="GRU">GRU</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="start_date"><i class="fas fa-calendar-alt"></i> Start Date</label>
+                <input type="date" id="start_date" name="start_date" required>
+            </div>
+
+            <div class="form-group">
+                <label for="end_date"><i class="fas fa-calendar-check"></i> End Date</label>
+                <input type="date" id="end_date" name="end_date" required>
+            </div>
+
+            <button type="submit"><i class="fas fa-play"></i> Mulai Prediksi</button>
+        </form>
+
+        {% if result %}
+        <div class="result">
+            <h2><i class="fas fa-chart-bar"></i> Hasil Evaluasi</h2>
+            <ul>
+                <li><strong>MAPE:</strong> {{ result.mape }}%</li>
+                <li><strong>MAE:</strong> {{ result.mae }}</li>
+                <li><strong>RMSE:</strong> {{ result.rmse }}</li>
+            </ul>
+            <img src="data:image/png;base64,{{ plot_url }}" alt="Grafik Prediksi">
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
